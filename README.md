@@ -1,2 +1,2 @@
-# leaderboard-tracker
-A small web tool to track leaderboard history.
+# Leaderboard Tracker
+A small web tool for tracking leaderboard history. Should be used with Leaderboards manialink.
