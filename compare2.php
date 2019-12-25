@@ -29,7 +29,12 @@
 		$timestamp_campaigns = array_values(array_diff(scandir("trackings/$title_id/$timestamp/campaigns"), array('.', '..')));
 
 		foreach($timestamp_campaigns as $c) {
-			$campaigns[$c] = json_decode(file_get_contents("trackings/$title_id/$timestamp/campaigns/$c/records.json"), true);
+			$records_file = "trackings/$title_id/$timestamp/campaigns/$c/records.json";
+			if(!file_exists($records_file)) {
+				http_response_code(502);
+				die();
+			}
+			$campaigns[$c] = json_decode(file_get_contents($records_file), true);
 		}
 
 		$comparison[] = $campaigns;
@@ -60,7 +65,12 @@
 	}
 
 	foreach($difference as $c => $maps) {
-		$campaign = json_decode(file_get_contents("trackings/$title_id/$timestamp/campaigns/$c/campaign.json"), true);
+		$campaign_file = "trackings/$title_id/$timestamp/campaigns/$c/campaign.json";
+		if(!file_exists($campaign_file)) {
+			http_response_code(502);
+			die();
+		}
+		$campaign = json_decode(file_get_contents($campaign_file), true);
 		$output[$c] = $campaign['maps'];
 
 		foreach($output[$c] as &$group) {
